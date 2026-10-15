@@ -14,6 +14,7 @@ while (true)
     Console.WriteLine("2. Добавить студента");
     Console.WriteLine("3. Показать все группы");
     Console.WriteLine("4. Добавить группу");
+    Console.WriteLine("5. Найти студента по имени/фамилии");
     Console.WriteLine("0. Выход");
     Console.Write("Выбери пункт: ");
 
@@ -57,8 +58,8 @@ while (true)
             GroupId = groupId
         };
 
-        studentRepo.Add(student);
-        Console.WriteLine("Студент добавлен!");
+        int newId = studentRepo.CreateStudent(student);
+        Console.WriteLine($"Студент добавлен! Его Id = {newId}");
     }
     else if (choice == "3")
     {
@@ -78,6 +79,21 @@ while (true)
         {
             groupRepo.Add(name);
             Console.WriteLine("Группа добавлена!");
+        }
+    }
+    else if (choice == "5")
+    {
+        Console.Write("Введи имя или фамилию: ");
+        string? name = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            var found = studentRepo.FindAllByName(name);
+            Console.WriteLine("\n--- Результаты поиска ---");
+            if (found.Count == 0)
+                Console.WriteLine("Ничего не найдено");
+            else
+                foreach (var s in found)
+                    Console.WriteLine(s);
         }
     }
     else if (choice == "0")
